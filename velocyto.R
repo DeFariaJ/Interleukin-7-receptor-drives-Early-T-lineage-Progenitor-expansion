@@ -307,9 +307,22 @@ Gata3$expression > 1
 Gata3_pos<- Gata3[Gata3$expression > 1,]
 Gata3_pos_vec <- as.vector(Gata3_pos$Cell)
 
+pData(cds_from_seurat)$new_cell <- "Others"
 
 
+pData(cds_from_seurat)$new_cell[pData(cds_from_seurat)$State == 4 & rownames(pData(cds_from_seurat)) %in% Il2ra_Neg_vector & rownames(pData(cds_from_seurat)) %in% Bcl11b_neg_vector] <- "ETP"
 
+barcode_df <- pData(cds_from_seurat)
+
+ETP_DGE_vector <- as.vector(row.names(barcode_df)[which(barcode_df$new_cell== "ETP")])
+Il7rPosDGE <- Il7r_vectorPos[Il7r_vectorPos %in% ETP_DGE_vector]
+Flt3PosDGE <- Flt3_pos_vector[Flt3_pos_vector %in% ETP_DGE_vector]
+Il7rNegDGE <- Il7r_vectorNeg[Il7r_vectorNeg %in% ETP_DGE_vector]
+Flt3NegDGE <- Flt3_neg_vector[Flt3_neg_vector %in% ETP_DGE_vector]
+Flt3_pos_Il7rPos <- Flt3PosDGE[Flt3PosDGE %in% Il7rPosDGE]
+Flt3_pos_Il7rNeg <- Flt3PosDGE[Flt3PosDGE %in% Il7rNegDGE]
+Flt3_neg_Il7rPos <- Flt3NegDGE[Flt3NegDGE %in% Il7rPosDGE]
+Flt3_neg_Il7rNeg <- Flt3NegDGE[Flt3NegDGE %in% Il7rNegDGE]
 
 
 
